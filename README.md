@@ -23,3 +23,6 @@ The primary verification objectives are:
 Ensure random and edge-case scenarios (e.g., boundary addresses, back-to-back reads/writes) are properly handled.
 
 This UVM environment provides a reusable and scalable framework, allowing easy extension to more complex memory models or integration in larger SoC verification projects.
+
+
+<img width="374" height="350" alt="image" src="https://github.com/user-attachments/assets/ee2d9d8e-b9d4-42f0-86a5-41e7b71cdaa6" />
