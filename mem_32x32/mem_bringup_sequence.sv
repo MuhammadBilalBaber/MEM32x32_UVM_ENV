@@ -9,13 +9,13 @@ class mem_bringup_sequence extends uvm_sequence#(mem_seq_item);
 
 virtual task body();
   mem_write();
-  // mem_read();
+  read_data1();
 
 endtask : body
 
 
 virtual task mem_write();
-repeat(33) begin
+repeat(1) begin
   `uvm_info(get_type_name(), "Starting bring-up sequence", UVM_LOW)
 
   req = mem_seq_item::type_id::create("req");
@@ -24,7 +24,8 @@ repeat(33) begin
   assert(req.randomize() with {
       req.wr_en   == 1;
       req.rd_en   == 0;
-      req.addr    inside {[0:31]};
+      // req.addr    inside {[0:31]};
+      req.addr    == 'h5;
       req.wr_data inside {[0:345264]};
   }) else
     `uvm_error(get_type_name(), "Randomization failed");
@@ -40,7 +41,7 @@ repeat(33) begin
 end
 endtask 
 
-virtual task mem_read();
+virtual task read_data1();
 repeat(1) begin
   `uvm_info(get_type_name(), "Starting bring-up sequence", UVM_LOW)
 
@@ -49,17 +50,23 @@ repeat(1) begin
   start_item(req);
   assert(req.randomize() with {
       req.rd_en   == 1;
+      req.wr_en   == 0;
+      // req.addr    inside {[0:31]};
       req.addr    == 'h5;
-      req.wr_en   ==0;
-      // req.wr_data == 'h87;
+      // req.wr_data inside {[0:345264]};
   }) else
     `uvm_error(get_type_name(), "Randomization failed");
   finish_item(req);
 
   `uvm_info(get_type_name(), "Transaction sent", UVM_LOW)
-end
-endtask 
 
+  get_response(req);
+  `uvm_info(get_type_name(),$sformatf("The response get is %p",req), UVM_LOW)
+  if(req.wr_data=='h30eec) begin
+  `uvm_info(get_type_name(), "Data is from response", UVM_LOW) 
+  end
+end
+endtask
  
 
 endclass
