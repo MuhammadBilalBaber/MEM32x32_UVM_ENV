@@ -27,8 +27,8 @@ class mem_monitor extends uvm_monitor;
   forever begin
     @(posedge mem_if.clk);
     @(posedge mem_if.clk);
-    @(posedge mem_if.clk);
     compare_data();
+    @(posedge mem_if.clk);
   end
 endtask : run_phase
 
